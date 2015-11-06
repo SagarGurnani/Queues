@@ -25,16 +25,6 @@ app.use(function(req, res, next)
 	next(); // Passing the request to the next handler in the stack.
 });
 
-// app2.use(function(req, res, next) 
-// {
-// 	console.log('2: ', req.method, req.url);
-
-// 	// ... INSERT HERE.
-// 	client.lpush("recentURL",req.url);
-// 	client.ltrim("recentURL",0,4);
-
-// 	next(); // Passing the request to the next handler in the stack.
-// });
 
 var options = {};
 var proxy = httpProxy.createProxyServer(options);
@@ -66,32 +56,9 @@ app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
 
 }]);
 
-// app2.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
-//    // console.log(req.body) // form fields
-//    // console.log(req.files) // form files
-
-//    if( req.files.image )
-//    {
-// 	   fs.readFile( req.files.image.path, function (err, data) {
-// 	  		if (err) throw err;
-// 	  		var img = new Buffer(data).toString('base64');
-// 	  		console.log("Uploaded!");
-
-// 			client.lpush("recentImg",img);
-// 		});
-// 	}
-
-//    res.status(204).end()
-
-// }]);
-
-
 
 app.get('/meow', function(req, res) {
 
-		// client.lrange('recentImg',0,-1,function(err,data){
-		// 	console.log(data);
-		// });
  		
 		client.lrange('recentImg',0,0,function(err,imagedata) 
  		{
@@ -109,27 +76,6 @@ app.get('/meow', function(req, res) {
  	
  });
 
-// app2.get('/meow', function(req, res) {
-
-// 		// client.lrange('recentImg',0,-1,function(err,data){
-// 		// 	console.log(data);
-// 		// });
- 		
-// 		client.lrange('recentImg',0,0,function(err,imagedata) 
-//  		{
-// 			if(err) throw err
-// 			res.writeHead(200, {'content-type':'text/html'});
-// 			imagedata.forEach(function(photo){
-
-//     				res.write("<h1>\n<img src='data:my_pic.jpg;base64,"+photo+"'/>");
-		
-//  			});
-// 			res.end();
-// 		});	
-   	 
-// 		client.ltrim('recentImg',1,-1);
- 	
-//  });
 
 //HTTP SERVER
 
@@ -156,13 +102,6 @@ app.get('/',function(req,resp){
 	
 });
 
-// app2.get('/',function(req,resp){
-        
-	
-// 	resp.send("Hello from Server 2!");
-	
-        
-// });
 // //////////////////////////////////////////////////////////////////////////////////
 
 app.get('/get',function(req,res){
@@ -175,15 +114,7 @@ app.get('/get',function(req,res){
 		});
 });
 
-// app2.get('/get',function(req,res){
-//         client.get("newKey",function(err,value){
-//         		if (err) {throw err}
-//         			else{
-//                 res.send(value);
-                
-//             }
-//         });
-// });
+
 
 // //////////////////////////////////////////////////////////////////////////////////
 
@@ -198,16 +129,7 @@ app.get('/set',function(req,res){
 
 });
 
-// app2.get('/set',function(req,res){
-//         client.set("newKey","Value = 42");
-//         client.get("newKey", function(err,value){
-//                 console.log(value);
-//                 res.send(value);
-                
-//                 client.expire("newKey",10);
-//         });
 
-// });
 // /////////////////////////////////////////////////////////////////////////////
 
 
@@ -217,11 +139,4 @@ app.get('/recent',function(req,res){
                 
         });
 });
-
-// app2.get('/recent',function(req,res){
-//         client.lrange("recentURL",0,4,function(err,value){
-//                 res.send(value);
-                
-//         });
-// });
 
