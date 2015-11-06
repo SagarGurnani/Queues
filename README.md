@@ -1,79 +1,28 @@
-Cache, Proxies, Queues
+Homework 3
 =========================
 
 ### Setup
 
-* Clone this repo, run `npm install`.
+* run `npm install`.
 * Install redis and run on localhost:6379
+* Run 'node main.js' to fire up the server instances and the proxy server
 
-### A simple web server
+* Load balancer : 0.0.0.0:3000
+* Server instance 1 : 0.0.0.0:3001
+* Server instance 2 : 0.0.0.0:3002
 
-Use [express](http://expressjs.com/) to install a simple web server.
+### Additional service instance running & Demonstrate Proxy
 
-	var server = app.listen(3000, function () {
-	
-	  var host = server.address().address
-	  var port = server.address().port
-	
-	  console.log('Example app listening at http://%s:%s', host, port)
-	})
+https://github.com/SagarGurnani/Queues/blob/master/ProxyHW.gif
 
-Express uses the concept of routes to use pattern matching against requests and sending them to specific functions.  You can simply write back a response body.
+### Completing /set and /get
 
-	app.get('/', function(req, res) {
-	  res.send('hello world')
-	})
+https://github.com/SagarGurnani/Queues/blob/master/ProxyHW6.gif
 
-### Redis
+### Completing /recent
 
-You will be using [redis](http://redis.io/) to build some simple infrastructure components, using the [node-redis client](https://github.com/mranney/node_redis).
+https://github.com/SagarGurnani/Queues/blob/master/ProxyHW7.gif
 
-	var redis = require('redis')
-	var client = redis.createClient(6379, '127.0.0.1', {})
+### Completing /upload and /meow
 
-In general, you can run all the redis commands in the following manner: client.CMD(args). For example:
-
-	client.set("key", "value");
-	client.get("key", function(err,value){ console.log(value)});
-
-### An expiring cache
-
-Create two routes, `/get` and `/set`.
-
-When `/set` is visited, set a new key, with the value:
-> "this message will self-destruct in 10 seconds".
-
-Use the expire command to make sure this key will expire in 10 seconds.
-
-When `/get` is visited, fetch that key, and send value back to the client: `res.send(value)` 
-
-
-### Recent visited sites
-
-Create a new route, `/recent`, which will display the most recently visited sites.
-
-There is already a global hook setup, which will allow you to see each site that is requested:
-
-	app.use(function(req, res, next) 
-	{
-	...
-
-Use the lpush, ltrim, and lrange redis commands to store the most recent 5 sites visited, and return that to the client.
-
-### Cat picture uploads: queue
-
-Implement two routes, `/upload`, and `/meow`.
- 
-A stub for upload and meow has already been provided.
-
-Use curl to help you upload easily.
-
-	curl -F "image=@./img/morning.jpg" localhost:3000/upload
-
-Have `upload` store the images in a queue.  Have `meow` display the most recent image to the client and *remove* the image from the queue.
-
-### Proxy server
-
-Bonus: How might you use redis and express to introduce a proxy server?
-
-See [rpoplpush](http://redis.io/commands/rpoplpush)
+https://github.com/SagarGurnani/Queues/blob/master/ProxyHW5.gif
